@@ -1,0 +1,45 @@
+
+# -----------------------------------------
+# BERT Embeddings using Hugging Face
+# -----------------------------------------
+
+import torch
+from transformers import BertTokenizer, BertModel
+
+# 1. Load tokenizer and model
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+model = BertModel.from_pretrained("bert-base-uncased")
+
+# Set model to evaluation mode
+model.eval()
+
+# 2. Input sentence
+sentence = "I love natural language processing"
+
+# 3. Tokenize input
+inputs = tokenizer(
+    sentence,
+    return_tensors="pt",
+    padding=True,
+    truncation=True
+)
+
+# 4. Get BERT outputs (no gradient needed)
+with torch.no_grad():
+    outputs = model(**inputs)
+
+# 5. Extract embeddings
+last_hidden_states = outputs.last_hidden_state
+cls_embedding = last_hidden_states[:, 0, :]     # [CLS] token
+token_embeddings = last_hidden_states           
+print(token_embeddings.shape)   # (batch_size, seq_len, hidden_size)
+
+print("\n[CLS] Embedding Shape:")
+print(cls_embedding.shape)      # (batch_size, hidden_size)
+# all token embeddings
+
+# 6. Print results
+print("Input Tokens:")
+print(tokenizer.convert_ids_to_tokens(inputs["input_ids"][0]))
+
+print("\nToken Embeddings Shape:")!pip install transformers torch
