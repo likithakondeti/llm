@@ -1,0 +1,39 @@
+ -----------------------------------------
+# Bag of Words (BoW) from Scratch
+# -----------------------------------------
+
+import numpy as np
+
+# 1. Sample sentences
+sentences = [
+    "i love nlp",
+    "i love ai"
+]
+
+# 2. Tokenize sentences
+tokenized_sentences = [sentence.split() for sentence in sentences]
+
+# 3. Build vocabulary
+vocab = sorted(set(word for sentence in tokenized_sentences for word in sentence))
+vocab_size = len(vocab)
+
+print("Vocabulary:", vocab)
+
+# 4. Word-to-index mapping
+word2id = {word: idx for idx, word in enumerate(vocab)}
+
+# 5. Create Bag of Words vectors
+def bag_of_words(sentence, word2id, vocab_size):
+    vector = np.zeros(vocab_size, dtype=int)
+    for word in sentence:
+        vector[word2id[word]] += 1
+    return vector
+
+# 6. Generate embeddings
+bow_embeddings = np.array([
+    bag_of_words(sentence, word2id, vocab_size)
+    for sentence in tokenized_sentences
+])
+
+print("\nBag of Words Embeddings:")
+print(bow_embeddings)
