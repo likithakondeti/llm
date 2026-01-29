@@ -1,0 +1,29 @@
+!pip install transformers torch
+from transformers import pipeline
+
+# Load Question Answering pipeline
+qa_pipeline = pipeline(
+    "question-answering",
+    model="distilbert-base-cased-distilled-squad",
+    tokenizer="distilbert-base-cased-distilled-squad"
+)
+
+# Context paragraph
+context = """
+Artificial Intelligence is a branch of computer science that aims to create
+machines capable of intelligent behavior. It includes machine learning,
+natural language processing, and robotics.
+"""
+
+# Question
+question = "What does Artificial Intelligence aim to create?"
+
+# Get answer
+result = qa_pipeline(
+    question=question,
+    context=context
+)
+
+# Print result
+print("Answer:", result["answer"])
+print("Confidence Score:", round(result["score"], 4))
