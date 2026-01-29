@@ -1,0 +1,34 @@
+# -----------------------------------------
+# One-Word (One-Hot) Encoding for Embeddings
+# -----------------------------------------
+
+import numpy as np
+
+# 1. Sample text
+sentence = "i love nlp"
+
+# 2. Tokenization (word-level)
+tokens = sentence.split()
+
+# 3. Build vocabulary
+vocab = sorted(set(tokens))
+vocab_size = len(vocab)
+
+print("Vocabulary:", vocab)
+
+# 4. Create word-to-index mapping
+word2id = {word: idx for idx, word in enumerate(vocab)}
+id2word = {idx: word for word, idx in word2id.items()}
+
+print("\nWord to ID mapping:", word2id)
+
+# 5. One-hot encoding function
+def one_hot_encode(word, word2id, vocab_size):
+    vector = np.zeros(vocab_size)
+    vector[word2id[word]] = 1
+    return vector
+
+# 6. Encode each word
+print("\nOne-Hot Encodings:")
+for word in tokens:
+    print(f"{word} → {one_hot_encode(word, word2id, vocab_size)}")
