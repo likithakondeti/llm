@@ -1,0 +1,30 @@
+!pip install transformers torch
+from transformers import pipeline
+
+# Load summarization pipeline
+summarizer = pipeline(
+    "summarization",
+    model="facebook/bart-large-cnn",
+    tokenizer="facebook/bart-large-cnn"
+)
+
+# Input text
+text = """
+Artificial Intelligence (AI) refers to the simulation of human intelligence
+in machines that are programmed to think like humans and mimic their actions.
+The term may also be applied to any machine that exhibits traits associated
+with a human mind such as learning and problem-solving. AI is widely used
+in healthcare, finance, education, and transportation.
+"""
+
+# Generate summary
+summary = summarizer(
+    text,
+    max_length=60,
+    min_length=25,
+    do_sample=False
+)
+
+# Print summary
+print("Summary:")
+print(summary[0]["summary_text"])
