@@ -1,0 +1,36 @@
+!pip install gensim nltk
+# -----------------------------------------
+# GloVe Embeddings using gensim
+# -----------------------------------------
+
+import gensim.downloader as api
+import nltk
+from nltk.tokenize import word_tokenize
+
+nltk.download("punkt")
+
+# 1. Load pre-trained GloVe model (100-dimensional)
+# Other options: glove-twitter-25, glove-wiki-gigaword-50, 200, 300
+glove_model = api.load("glove-wiki-gigaword-100")
+
+print("GloVe model loaded successfully!")
+
+# 2. Sample sentence
+sentence = "I love natural language processing"
+
+# 3. Tokenize sentence
+tokens = word_tokenize(sentence.lower())
+print("\nTokens:", tokens)
+
+# 4. Get GloVe embeddings for each word
+embeddings = {}
+
+for word in tokens:
+    if word in glove_model:
+        embeddings[word] = glove_model[word]
+
+# 5. Display embeddings
+for word, vector in embeddings.items():
+    print(f"\nEmbedding for '{word}':")
+    print(vector)
+    print("Dimension:", len(vector))
