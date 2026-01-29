@@ -1,0 +1,23 @@
+pip install transformers torch
+from transformers import pipeline
+
+# Load pre-trained NER pipeline
+ner_pipeline = pipeline(
+    "ner",
+    model="dslim/bert-base-NER",
+    tokenizer="dslim/bert-base-NER",
+    aggregation_strategy="simple"
+)
+
+# Input text
+text = "Apple was founded by Steve Jobs in California in 1976."
+
+# Perform NER
+entities = ner_pipeline(text)
+
+# Print results
+for entity in entities:
+    print(f"Text: {entity['word']}")
+    print(f"Entity: {entity['entity_group']}")
+    print(f"Score: {entity['score']:.4f}")
+    print("-" * 30)
