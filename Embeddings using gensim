@@ -1,0 +1,48 @@
+!pip install gensim nltk
+# -----------------------------------------
+# Word2Vec Embeddings using gensim
+# -----------------------------------------
+
+import nltk
+from nltk.tokenize import word_tokenize
+from gensim.models import Word2Vec
+
+# Download tokenizer
+nltk.download("punkt")
+nltk.download("punkt_tab") # Add this line to download the missing resource
+
+# 1. Sample corpus
+sentences = [
+    "I love natural language processing",
+    "Word2Vec creates word embeddings",
+    "I love machine learning",
+    "Natural language processing is fun"
+]
+
+# 2. Tokenize sentences
+tokenized_sentences = [word_tokenize(sentence.lower()) for sentence in sentences]
+
+print("Tokenized Sentences:")
+print(tokenized_sentences)
+
+# 3. Train Word2Vec model
+model = Word2Vec(
+    sentences=tokenized_sentences,
+    vector_size=50,   # embedding dimension
+    window=3,         # context window size
+    min_count=1,      # include all words
+    sg=1              # 1 = Skip-gram, 0 = CBOW
+)
+
+# 4. Get word embedding
+word = "language"
+embedding = model.wv[word]
+
+print(f"\nEmbedding for '{word}':")
+print(embedding)
+print("\nEmbedding dimension:", len(embedding))
+
+# 5. Find similar words
+similar_words = model.wv.most_similar("language")
+print("\nWords similar to 'language':")
+print(similar_words)
